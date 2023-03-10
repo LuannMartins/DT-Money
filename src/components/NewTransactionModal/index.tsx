@@ -4,8 +4,8 @@ import { CloseButton, Content, Overlay, TransactionType, TransactionTypeButton} 
 import * as z from 'zod';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useContext } from 'react';
 import { TransactionsContext } from '../../contexts/TransactionsContext';
+import { useContextSelector } from 'use-context-selector';
 
 const newTransactionFormShema = z.object({
     description: z.string(),
@@ -17,7 +17,9 @@ const newTransactionFormShema = z.object({
 type newTransactionFormInputs = z.infer<typeof newTransactionFormShema>
 
 export function NewTransactionModal() {
-    const { createTransaction } = useContext(TransactionsContext)
+    const createTransaction = useContextSelector(TransactionsContext, (context) => {
+      return context.createTransaction; // Aplicando Context Selectors
+    })
 
     const {
         control,
